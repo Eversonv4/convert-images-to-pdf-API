@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image to PDF Converter</title>
+  </head>
+  <body>
+    <h1>Image to PDF Converter</h1>
+    <form id="upload-form">
+      <label for="image-input">Select an image:</label>
+      <input
+        type="file"
+        id="image-input"
+        name="image"
+        accept=".jpg, .jpeg, .png"
+      />
+      <button type="submit">Convert to PDF</button>
+    </form>
+
+    <script>
+      const form = document.getElementById("upload-form");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const response = await fetch("http://localhost:3000/convert", {
+          method: "POST",
+          body: formData,
+        });
+        const blob = await response.blob();
+        console.log(blob);
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `zzz.pdf`;
+        a.click();
+      });
+    </script>
+  </body>
+</html>
